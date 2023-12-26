@@ -1,0 +1,36 @@
+show dbs;
+use databasename;
+db.dropDatabase();
+////////////////////////
+db.createCollection('Customer');
+show collections;
+db.Customer.drop();
+////////////////////////
+use Aman;/Automatically database is created
+db.createCollection('Customer');
+show collections;//like show tables
+db.Customer.drop();//delete table
+/////////////////////////
+use aman;
+db.createCollection('Employee');
+db.Employee.insertMany([{Age:22,Name:"Prathmesh"},{Age:22,Name:"Aman"}])
+db.Employee.find();
+/////////////////////////////
+use aman;
+db.createCollection('Employee');
+db.Employee.insertMany([{'Age':22,'first Name':'Prathmesh'},{'Age':23,Name:"Aman"}
+    ,{'Age':24,'first Name':'chuchum'},{'Age':25,'first Name':'LoduBhai'}  ]);
+// db.Employee.find({"first Name":'Prathmesh'})//show all which came in criteria
+// db.Employee.findOne({"first Name":'Prathmesh'})//showing only one 
+//show collections;
+//db.Employee.find({'Age':{$gt:23}});greater than
+//db.Employee.find({'Age':{$lt:28}}).count();//3
+//db.Employee.find({'Age':{$in:[22,25]}});
+//db.Employee.find({'Age':{$gt:20}}).limit(2);
+//db.Employee.find({'Age':{$gt:20}}).limit(2).skip(1);//23&24 (skip 1 then show 2)
+//db.Employee.find({'Age':{$gt:20}}).skip(1).limit(2);//23&24 (skip 1 then show 2)
+//db.Employee.find({'Age':{$gt:20}}).sort({'Age':1});//1 means Assending
+//db.Employee.find({'Age':{$gt:20}}).sort({'Age':-1});//-1 means Desending 
+//db.Employee.find({$and:[{'Age':{$gt:23}},{'Age':{$lte:28}}]});
+//db.Employee.find({$or:[{'Age':{$gt:23}},{'Age':{$lte:28}}]});//{$and:[{},{}]}
+
