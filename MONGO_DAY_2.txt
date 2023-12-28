@@ -1,0 +1,50 @@
+use Aman;
+db.createCollection('Employee');
+// db.Employee.insertMany([{Age:22,Name:"Prathmesh"},{Age:23,Name:"Aman"},
+//                         {Age:25,Name:'Vaibhav'},{Age:21,Name:'Anupal'}])
+//nor,nor
+//db.Employee.find({$nor:[{Age:{$gt:22}},{Age:{$lte:25}}]}).count();
+//db.Employee.find({Age:{$not:{$gt:22}}});
+//expr
+//db.Employee.find({$expr:{ $gt:['Age',22]}});//alternate method 
+//exists
+//db.Employee.find({Age:{$exists:true}});//feilds which contain Age returned
+//db.Employee.find({Age:{$exists:true},Age:{$gt:23}});
+//The <BASOn type> value can be one of the following
+//Double,String,Object,Array......
+//type
+//db.Employee.find({Age:{$type:'number'}}).count();
+//db.Employee.find({Age:{$type:'bool'}}).count();
+///>>>>>>>>----->>>>Projection(in each record which field you want to show{Name:'Aman',Age:333})
+
+ db.Employee.insertMany([{title:"mongoDB"},{'Array':[{Age:22,Name:"Prathmesh",height:165},{Age:23,Name:"Aman",height:161},
+                         {Age:25,Name:'Vaibhav'},{Age:21,Name:'Anupal'}]}]);
+//db.Employee.find({'Array':{$size:2}});//objects in Array which contains2 feilds 
+db.Employee.find({'Array':{$size:2}});
+////////////////////////////////Update
+//->->->->->->below two are,  renamed Name to full name,unset (Means feild (Age)is removed)
+ db.customer.updateMany({Name:'Aman'},{$rename:{Name:'FullName'}});//feild Renamed
+ db.customer.updateOne({Name:'Prathmesh'},{$unset:{Name:1}});//feild Removed(Name)
+//->->->->->->below operation push&pop are perform on record having Array
+ db.customer.updateOne({_id: ObjectId('658c6aaedfcfd3eb401d80a3'),},{$push:{Detail:{Name:'Kumkum'}}});
+db.customer.updateOne({_id: ObjectId('658c6aaedfcfd3eb401d80a3'),},{$pop:{Detail:1}});//
+//->->->->->->
+ db.customer.updateMany({ 'Detail.Addr':'xyz'},{$set:{'Detail.$.Addr':'xxxxxxxx'}});//Array(Detail) records is modified
+//to delete record of  internal array we use updateOne
+ db.customer.updateOne({'Detail.Addr':'xxx'},{$unset:{Addr:1}});
+//but to delete the record of extrenal ARRAY we use deleteOne
+ db.customer.deleteOne({_id: ObjectId('658c6aaedfcfd3eb401d80a3')});//externalArray one record deleted
+/////////////////////////////////Index (TO reduce search  Time)
+***Indexes support efficient execution of queries in MongoDB. Without indexes, MongoDB must scan every document in a collection to return query results. If an appropriate index exists for a query, MongoDB uses the index to limit the number of documents it must scan.**
+->->db.customer.createIndex({Name:1});///1 for assc and -1 for desc
+///Aggregation(Aggregation is a way of processing a large number of documents in a collection by means of passing them through different stages Like chaining of methods in javascript)
+$match stage – filters those documents we need to work with, those that fit our needs
+$group stage – does the aggregation job
+$sort  stage – sorts the resulting documents the way we require (ascending or descending)
+->->->-> db.customer.aggregate([{$match:{Name:'MOmo'}}]);//data will be filtered stage by stage i  agn aggregation
+
+
+
+
+
+
